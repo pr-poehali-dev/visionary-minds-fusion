@@ -1,70 +1,80 @@
 import { Button } from "@/components/ui/button"
+import { useState, useEffect } from "react"
+
+const slides = [
+  { id: "slide-1", label: "Титул" },
+  { id: "slide-2", label: "Введение" },
+  { id: "slide-3", label: "Гл. 1" },
+  { id: "slide-4", label: "Виды" },
+  { id: "slide-5", label: "Объём" },
+  { id: "slide-6", label: "Гл. 2" },
+  { id: "slide-7", label: "Материалы" },
+  { id: "slide-8", label: "Гл. 3" },
+  { id: "slide-9", label: "Эскизы" },
+  { id: "slide-10", label: "Процесс" },
+  { id: "slide-11", label: "Финиш" },
+  { id: "slide-12", label: "Анализ" },
+]
 
 export function FloatingNavbar() {
-  const scrollToSection = (sectionId: string) => {
-    const section = document.getElementById(sectionId)
+  const [current, setCurrent] = useState(0)
+
+  const scrollToSlide = (index: number) => {
+    const section = document.getElementById(slides[index].id)
     if (section) {
       section.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" })
     }
   }
 
+  useEffect(() => {
+    const container = document.querySelector(".snap-x") as HTMLElement
+    if (!container) return
+    const handler = () => {
+      const idx = Math.round(container.scrollLeft / container.offsetWidth)
+      setCurrent(idx)
+    }
+    container.addEventListener("scroll", handler)
+    return () => container.removeEventListener("scroll", handler)
+  }, [])
+
   return (
     <nav className="fixed left-0 right-0 top-0 z-50 px-4 py-4">
-      <div className="mx-auto max-w-7xl rounded-2xl border-2 border-white/10 bg-white/5 px-6 py-4 backdrop-blur-sm">
-        <div className="flex items-center justify-between">
-          {/* Logo */}
-          <button onClick={() => scrollToSection("home")} className="cursor-pointer">
+      <div className="mx-auto max-w-7xl rounded-2xl border-2 border-white/10 bg-white/5 px-4 py-3 backdrop-blur-sm">
+        <div className="flex items-center justify-between gap-2">
+          <button onClick={() => scrollToSlide(0)} className="cursor-pointer flex-shrink-0">
             <div className="flex items-center gap-2 text-white [text-shadow:_0_2px_8px_rgb(0_0_0_/_40%)]">
-              <svg
-                fill="currentColor"
-                height="1.75em"
-                style={{ flexShrink: 0, lineHeight: 1 }}
-                viewBox="0 0 24 24"
-                width="1.75em"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <title>PromptCraft</title>
-                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-              <span className="font-semibold text-lg font-open-sans-custom tracking-tight">PromptCraft</span>
+              <span className="font-semibold text-base font-open-sans-custom tracking-tight whitespace-nowrap">
+                Динамика коня
+              </span>
             </div>
           </button>
 
-          {/* Navigation Links */}
-          <div className="hidden items-center gap-8 md:flex">
-            <button
-              onClick={() => scrollToSection("features")}
-              className="text-sm font-open-sans-custom text-gray-300 transition-colors hover:text-white [text-shadow:_0_2px_6px_rgb(0_0_0_/_40%)]"
-            >
-              Функции
-            </button>
-            <button
-              onClick={() => scrollToSection("pricing")}
-              className="text-sm font-open-sans-custom text-gray-300 transition-colors hover:text-white [text-shadow:_0_2px_6px_rgb(0_0_0_/_40%)]"
-            >
-              Тарифы
-            </button>
-            <button
-              onClick={() => scrollToSection("about")}
-              className="text-sm font-open-sans-custom text-gray-300 transition-colors hover:text-white [text-shadow:_0_2px_6px_rgb(0_0_0_/_40%)]"
-            >
-              О нас
-            </button>
-            <button
-              onClick={() => scrollToSection("contact")}
-              className="text-sm font-open-sans-custom text-gray-300 transition-colors hover:text-white [text-shadow:_0_2px_6px_rgb(0_0_0_/_40%)]"
-            >
-              Контакты
-            </button>
+          <div className="hidden items-center gap-1 md:flex flex-wrap justify-center">
+            {slides.map((slide, i) => (
+              <button
+                key={slide.id}
+                onClick={() => scrollToSlide(i)}
+                className={`text-xs font-open-sans-custom px-2 py-1 rounded transition-colors [text-shadow:_0_2px_6px_rgb(0_0_0_/_40%)] ${
+                  current === i ? "text-white bg-white/15" : "text-gray-400 hover:text-white"
+                }`}
+              >
+                {slide.label}
+              </button>
+            ))}
           </div>
 
-          {/* CTA Button */}
-          <Button
-            size="sm"
-            className="bg-white text-black hover:bg-gray-100 [text-shadow:_0_1px_2px_rgb(0_0_0_/_10%)] font-open-sans-custom"
-          >
-            Начать
-          </Button>
+          <div className="flex items-center gap-2 flex-shrink-0">
+            <span className="text-xs text-gray-400 font-open-sans-custom whitespace-nowrap">
+              {current + 1} / {slides.length}
+            </span>
+            <Button
+              size="sm"
+              onClick={() => scrollToSlide(Math.min(current + 1, slides.length - 1))}
+              className="bg-white text-black hover:bg-gray-100 font-open-sans-custom text-xs"
+            >
+              Далее →
+            </Button>
+          </div>
         </div>
       </div>
     </nav>
