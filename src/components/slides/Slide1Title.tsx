@@ -55,13 +55,13 @@ export function Slide1Title() {
           <div className="grid grid-cols-1 gap-3">
             <div className="rounded-lg px-4 py-3 border border-purple-500/20"
               style={{ background: "rgba(139,92,246,0.08)" }}>
-              <p className="text-xs text-purple-400/70 font-open-sans-custom uppercase tracking-widest mb-0.5">Выполнил</p>
-              <p className="text-white font-open-sans-custom text-sm">[Ваше ФИО]</p>
+              <p className="text-xs text-purple-400/70 font-open-sans-custom uppercase tracking-widest mb-0.5">Выполнила</p>
+              <p className="text-white font-open-sans-custom text-sm">Дубовицкая Виолетта Максимовна</p>
             </div>
             <div className="rounded-lg px-4 py-3 border border-purple-500/20"
               style={{ background: "rgba(139,92,246,0.08)" }}>
               <p className="text-xs text-purple-400/70 font-open-sans-custom uppercase tracking-widest mb-0.5">Руководитель</p>
-              <p className="text-white font-open-sans-custom text-sm">[ФИО руководителя]</p>
+              <p className="text-white font-open-sans-custom text-sm">С. С. Литвенко</p>
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div className="rounded-lg px-4 py-3 border border-purple-500/20"
